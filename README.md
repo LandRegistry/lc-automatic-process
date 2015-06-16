@@ -1,2 +1,2 @@
-# lc-alpha-b2b-api
-B2B API for the Digital Land Charges alpha
+# Land Charges Alpha: B2B Processor
+B2B application processor for the Digital Land Charges alpha
