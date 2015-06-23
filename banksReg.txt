@@ -1,2 +1,41 @@
+Registration received 22/6/2015 at 10:17:37
+{'application_ref': 'ref', 'gender': 'Female', 'date': '2015-06-09', 'investment_property': [], 'residence': [{'address_lines': ['43 street', 'plymouth'], 'postcode': 'PL8 8TY'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Joan'], 'surname': 'Turtle'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1982-09-09', 'residence_withheld': False}
 
+Registration received 22/6/2015 at 10:20:17
+{'application_ref': 'ref', 'gender': 'male', 'date': '2015-06-09', 'investment_property': [], 'residence': [{'address_lines': ['45 terrace', 'plymouth'], 'postcode': 'PL1 1WE'}], 'occupation': '', 'key_number': '2244095', 'business_address': {'address_lines': ['54 the street', 'Poole'], 'postcode': 'PO9 7PP'}, 'debtor_name': {'forenames': ['robert'], 'surname': 'trebor'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1982-09-09', 'residence_withheld': False}
 
+Registration received 22/6/2015 at 10:26:54
+{'application_ref': 'Ref simple PAB', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 12:47:55
+{'application_ref': 'Ref simple PAB', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:4:30
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'business_address': {'address_lines': ['Seaton Court William Prance Road', 'Plymouth'], 'postcode': 'PL5 8AA'}, 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:4:43
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [{'address_lines': ['1A By the Beach', 'Corfu'], 'postcode': 'PL11 2AA'}, {'address_lines': ['1A By the Beach', 'Corfu'], 'postcode': 'PL11 2AA'}], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:4:51
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:15:1
+{'application_ref': 'My reference', 'gender': 'Male', 'date': '2015-06-09', 'investment_property': [], 'residence': [{'address_lines': ['88 High Street', 'Tauton'], 'postcode': 'PL9 1QA'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Harry'], 'surname': 'Smith'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1980-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:18:35
+{'application_ref': 'ref', 'gender': 'Male', 'date': '2015-06-09', 'investment_property': [], 'residence': [{'address_lines': ['45 street', 'plymoit'], 'postcode': ''}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Harry'], 'surname': 'Jones'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1980-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:19:8
+{'application_ref': 'ref', 'gender': 'Male', 'date': '2015-06-09', 'investment_property': [], 'residence': [{'address_lines': ['45 street', 'plymouth'], 'postcode': 'PL9 2WW'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Harry'], 'surname': 'Jones'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1980-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:38:24
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'business_address': {'address_lines': ['Seaton Court William Prance Road', 'Plymouth'], 'postcode': 'PL5 8AA'}, 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:38:38
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [{'address_lines': ['1A By the Beach', 'Corfu'], 'postcode': 'PL11 2AA'}, {'address_lines': ['1A By the Beach', 'Corfu'], 'postcode': 'PL11 2AA'}], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:38:45
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [{'address_lines': ['34 Jolly Lane', 'Plymouth'], 'postcode': 'PL7 8YT'}], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': False}
+
+Registration received 22/6/2015 at 13:38:51
+{'application_ref': 'My ref', 'gender': 'Male', 'date': '2015-09-09', 'investment_property': [], 'residence': [], 'occupation': '', 'key_number': '2244095', 'debtor_name': {'forenames': ['Larry'], 'surname': 'David'}, 'trading_name': '', 'debtor_alternative_name': [{'forenames': [''], 'surname': ''}], 'date_of_birth': '1970-09-09', 'residence_withheld': True}
