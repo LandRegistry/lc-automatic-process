@@ -2,16 +2,29 @@ import pytest
 from unittest import mock
 from application.routes import app
 import requests
+import json
 
-#following code commented out as it'll be required for the next sprint
-"""class FakeResponse(requests.Response):
-    def __init__(self, content='', status_code=200):
+
+class FakeResponse(requests.Response):
+    def __init__(self, res='Y', status_code=200):
         super(FakeResponse, self).__init__()
-        self._content = content
+
+        # self._content = self.getJson(content)
+        self.res = res
+
         self._content_consumed = True
-        self.status_code = status_code"""
+        self.status_code = status_code
+
+    def json(self):
+        if self.res == 'Y':
+            data = {"register_auto": True}
+        else:
+            data = {"register_auto": False}
+        return data
+
 
 reg_data = '{"keynumber": 222222, "ref": "myref", "date": "16/06/2015", "forename": "John", "surname": "Watson"}'
+
 
 class TestB2BProcess:
     def setup_method(self, method):
@@ -30,12 +43,23 @@ class TestB2BProcess:
 
     def test_contentfail(self):
         headers = {'Content-Type': 'text'}
-        response = self.app.post('/register', data= reg_data, headers=headers)
+        response = self.app.post('/register', data=reg_data, headers=headers)
         assert response.status_code == 415
 
-    def test_register(self):
+
+    fake_auto_success = FakeResponse('Y', 200)
+
+    @mock.patch('requests.post', return_value=fake_auto_success)
+    def test_register(self, mock_post):
         headers = {'Content-Type': 'application/json'}
-        response = self.app.post('/register', data= reg_data, headers=headers)
+        response = self.app.post('/register', data=reg_data, headers=headers)
         assert response.status_code == 200
 
+    fake_manual_success = FakeResponse('N', 200)
+
+    @mock.patch('requests.post', return_value=fake_manual_success)
+    def test_register1(self, mock_post):
+        headers = {'Content-Type': 'application/json'}
+        response = self.app.post('/register', data=reg_data, headers=headers)
+        assert response.status_code == 200
 

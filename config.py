@@ -5,3 +5,5 @@ class Config(object):
 
 class DevelopmentConfig(object):
     DEBUG = True
+    RULES_ENGINE_URL = "http://localhost:5005"
+    BANKRUPTCY_DATABASE_API = "http://localhost:5004"
