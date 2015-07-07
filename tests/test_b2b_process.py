@@ -16,10 +16,11 @@ class FakeResponse(requests.Response):
         self.status_code = status_code
 
     def json(self):
+        # sets up the json required in the mock response
         if self.res == 'Y':
             data = {"register_auto": True}
         else:
-            data = {"register_auto": False}
+            data = {"register_auto": False, "id": 1}
         return data
 
 
