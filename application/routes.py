@@ -1,7 +1,7 @@
 from application import app
 from flask import Response, request
 from datetime import datetime
-
+import logging
 import requests
 import json
 
@@ -26,12 +26,14 @@ def register():
         data = response.json()
         go_auto = (data['register_auto'])
         if go_auto:
+            logging.info('Automatically processing')
             url = app.config['BANKRUPTCY_DATABASE_API'] + '/register'
             headers = {'Content-Type': 'application/json'}
             response = requests.post(url, data=json.dumps(json_data), headers=headers)
 
         else:
             # save to work list
+            logging.info('Dropping to manual')
             url = app.config['CASEWORK_DATABASE_API'] + '/lodge_manual'
             headers = {'Content-Type': 'application/json'}
             response = requests.post(url, data=json.dumps(json_data), headers=headers)
@@ -40,4 +42,7 @@ def register():
                 work_id = (data['id'])
                 return Response(json.dumps({'id': work_id}), status=response.status_code)
 
+        return Response(status=response.status_code)
+    else:
+        logging.error('Received code {}'.format(response.status_code))
         return Response(status=response.status_code)
