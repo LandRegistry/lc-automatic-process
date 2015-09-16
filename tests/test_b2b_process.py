@@ -1,8 +1,6 @@
-import pytest
 from unittest import mock
 from application.routes import app
 import requests
-import json
 
 
 class FakeResponse(requests.Response):
@@ -47,7 +45,6 @@ class TestB2BProcess:
         response = self.app.post('/register', data=reg_data, headers=headers)
         assert response.status_code == 415
 
-
     fake_auto_success = FakeResponse('Y', 200)
 
     @mock.patch('requests.post', return_value=fake_auto_success)
@@ -63,4 +60,3 @@ class TestB2BProcess:
         headers = {'Content-Type': 'application/json'}
         response = self.app.post('/register', data=reg_data, headers=headers)
         assert response.status_code == 200
-
