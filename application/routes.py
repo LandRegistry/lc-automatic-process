@@ -1,6 +1,5 @@
 from application import app
 from flask import Response, request
-from datetime import datetime
 import logging
 import requests
 import json
@@ -44,5 +43,5 @@ def register():
 
         return Response(status=response.status_code)
     else:
-        logging.error('Received code {}'.format(response.status_code))
+        logging.error('Received code %d', response.status_code)
         return Response(status=response.status_code)
