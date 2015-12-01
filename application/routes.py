@@ -59,7 +59,7 @@ def register():
         json_data['debtor_alternative_name'] = json_data['debtor_names'][1:]
         del json_data['application_date']
         del json_data['debtor_names']
-        url = app.config['BANKRUPTCY_DATABASE_API'] + '/registration'
+        url = app.config['BANKRUPTCY_DATABASE_API'] + '/registrations'
         headers = {'Content-Type': 'application/json'}
         response = requests.post(url, data=json.dumps(json_data), headers=headers)
         respond_with = response.content
@@ -67,7 +67,7 @@ def register():
     else:
         # save to work list
         logging.info('Dropping to manual')
-        url = app.config['CASEWORK_DATABASE_API'] + '/workitem'
+        url = app.config['CASEWORK_DATABASE_API'] + '/applications'
         headers = {'Content-Type': 'application/json'}
         response = requests.post(url, data=json.dumps(json_data), headers=headers)
         if response.status_code == 200:
