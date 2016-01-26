@@ -58,6 +58,8 @@ def register():
         # json_data['debtor_name'] = json_data['debtor_names'][0]
         # json_data['debtor_alternative_name'] = json_data['debtor_names'][1:]
         del json_data['application_date']
+        json_data['class_of_charge'] = json_data['application_type']
+        del(json_data['application_type'])
         # del json_data['debtor_names']
         url = app.config['BANKRUPTCY_DATABASE_API'] + '/registrations'
         headers = {'Content-Type': 'application/json'}
