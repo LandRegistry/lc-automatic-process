@@ -78,6 +78,66 @@ def health():
     return Response(json.dumps(result), status=status, mimetype='application/json')
 
 
+def create_registration(data):
+    registration = {
+        "parties": [],
+        "class_of_charge": re.sub("[\(\)]", "", data['application_type']),
+        "applicant": {
+            "name": data['customer_name'],
+            "address": data['customer_address'],
+            "key_number": data['key_number'],
+            "reference": data['application_ref']
+        },
+        'original_request': data['original_request']
+    }
+
+    party = {
+        "type": "Debtor",
+        "names": [],
+        "addresses": [],
+        "occupation": data['occupation'],
+        "trading_name": data['trading_name'],
+        "residence_withheld": data['residence_withheld'],
+        "case_reference": "[WHAT GOES HERE] FIXME!",
+        "date_of_birth": data['date_of_birth']
+    }
+
+    for name in data['debtor_names']:
+        party['names'].append({
+            'type': 'Private Individual',
+            'private': name
+        })
+
+    for address in data['residence']:
+        party['addresses'].append({
+            'type': 'Residence',
+            'address_lines': address['address_lines'],
+            'county': address['county'],
+            'postcode': address['postcode']
+        })
+
+    if 'business_address' in data:
+        for address in data['business_address']:
+            party['addresses'].append({
+                'type': 'Residence',
+                'address_lines': address['address_lines'],
+                'county': address['county'],
+                'postcode': address['postcode']
+            })
+
+    if 'investment_property' in data:
+        for address in data['investment_property']:
+            party['addresses'].append({
+                'type': 'Residence',
+                'address_lines': address['address_lines'],
+                'county': address['county'],
+                'postcode': address['postcode']
+            })
+
+    registration['parties'].append(party)
+    return registration
+
+
 @app.route('/bankruptcies', methods=["POST"])
 def register():
     if request.headers['Content-Type'] != "application/json":
@@ -92,14 +152,15 @@ def register():
         logging.info('Automatically processing')
 
         # Convert the data where the public API differs from the internal
-        json_data['date'] = json_data['application_date']
-        del json_data['application_date']
-        json_data['class_of_charge'] = json_data['application_type']
-        del(json_data['application_type'])
+        # json_data['date'] = json_data['application_date']
+        # del json_data['application_date']
+        # json_data['class_of_charge'] = json_data['application_type']
+        # del(json_data['application_type'])
+        registration = create_registration(json_data)
 
         url = app.config['BANKRUPTCY_DATABASE_API'] + '/registrations'
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(url, data=json.dumps(json_data), headers=headers)
+        response = requests.post(url, data=json.dumps(registration), headers=headers)
 
         if response.status_code == 200:
             logging.info('POST {} -- {}'.format(url, response.status_code))
