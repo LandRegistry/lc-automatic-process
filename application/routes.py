@@ -140,6 +140,23 @@ def create_registration(data):
     return registration
 
 
+def notify_casework_api(registrations, data):
+    send_data = {
+        'new_registrations': [],
+        'request_text': data
+    }
+
+    for reg in registrations:
+        send_data['new_registrations'].append({
+            "number": reg['number'],
+            "date": reg['date']
+        })
+
+    url = app.config['CASEWORK_DATABASE_API'] + '/b2b_forms'
+    requests.post(url, data=json.dumps(send_data), headers={'Content-Type': 'application/json'})
+    # TODO: catch errors [!IMPORTANT]
+
+
 @app.route('/bankruptcies', methods=["POST"])
 def register():
     if request.headers['Content-Type'] != "application/json":
@@ -183,6 +200,7 @@ def register():
                 "number": reg['number'],
                 "date": reg['date']
             })
+        notify_casework_api(respond_with['new_registrations'], json_data['original_request'])
 
         respond_code = response.status_code
     else:
