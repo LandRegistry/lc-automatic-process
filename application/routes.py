@@ -6,6 +6,7 @@ import json
 import traceback
 import kombu
 import re
+import json
 
 
 def check_bankreg_health():
@@ -108,13 +109,14 @@ def create_registration(data):
             'private': name
         })
 
-    for address in data['residence']:
-        party['addresses'].append({
-            'type': 'Residence',
-            'address_lines': address['address_lines'],
-            'county': address['county'],
-            'postcode': address['postcode']
-        })
+    if 'residence' in data:
+        for address in data['residence']:
+            party['addresses'].append({
+                'type': 'Residence',
+                'address_lines': address['address_lines'],
+                'county': address['county'],
+                'postcode': address['postcode']
+            })
 
     if 'business_address' in data:
         for address in data['business_address']:
@@ -167,12 +169,26 @@ def register():
         else:
             logging.warning('POST {} -- {}'.format(url, response.status_code))
 
-        respond_with = response.content
+        print(response.content)
+        respond_data = json.loads(response.content.decode('utf-8'))
+        respond_with = {
+            "new_registrations": [],
+            "application_ref": ""
+        }
+
+        for reg in respond_data['new_registrations']:
+            respond_with['new_registrations'].append({
+                "forenames": reg["name"]["private"]["forenames"],
+                "surname": reg["name"]["private"]["surname"],
+                "number": reg['number'],
+                "date": reg['date']
+            })
+
         respond_code = response.status_code
     else:
         raise NotImplementedError("Non-automatic processing is not supported")
 
-    return Response(respond_with, status=respond_code, mimetype='application/json')
+    return Response(json.dumps(respond_with), status=respond_code, mimetype='application/json')
 
 
 def raise_error(error):
