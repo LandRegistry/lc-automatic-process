@@ -32,7 +32,7 @@ class FakeResponseForAuto(requests.Response):
         return data
 
 
-reg_data = '{"keynumber": 222222, "ref": "myref", "application_date": "16/06/2015", "debtor_names": [{"forename": "John", "surname": "Watson"}]}'
+reg_data = '{"original_request": "{}", "customer_name": "boo", "customer_address": "hjhjhj", "key_number":"1234567","application_ref":"APP01","application_type":"PA(B)","application_date":"2016-01-01","debtor_names":[{"forenames":["Bob","Oscar","Francis"],"surname":"Howard"}],"gender":"Unknown","occupation":"Civil Servant","trading_name":"","residence":[{"address_lines":["1 The Street","The Town"],"postcode":"AA1 1AA","county":"The County"}],"residence_withheld":false,"date_of_birth":"1980-01-01"}'
 
 
 class TestB2BProcess:
@@ -52,23 +52,19 @@ class TestB2BProcess:
 
     def test_contentfail(self):
         headers = {'Content-Type': 'text'}
-        response = self.app.post('/register', data=reg_data, headers=headers)
+        response = self.app.post('/bankruptcies', data=reg_data, headers=headers)
         assert response.status_code == 415
 
-    fake_auto_success = FakeResponseForAuto('Y', 200)
-
-    @mock.patch('requests.post', return_value=fake_auto_success)
+    @mock.patch('requests.post', return_value=FakeResponse(b'{"new_registrations": []}'))
     def test_register(self, mock_post):
         headers = {'Content-Type': 'application/json'}
-        response = self.app.post('/register', data=reg_data, headers=headers)
+        response = self.app.post('/bankruptcies', data=reg_data, headers=headers)
         assert response.status_code == 200
 
-    fake_manual_success = FakeResponseForAuto('N', 200)
-
-    @mock.patch('requests.post', return_value=fake_manual_success)
+    @mock.patch('requests.post', return_value=FakeResponse(b'{"new_registrations": []}'))
     def test_register1(self, mock_post):
         headers = {'Content-Type': 'application/json'}
-        response = self.app.post('/register', data=reg_data, headers=headers)
+        response = self.app.post('/bankruptcies', data=reg_data, headers=headers)
         assert response.status_code == 200
 
     fake_healthcheck = FakeResponse('{"dependencies": {"an-app": "200 OK"} }'.encode(), 200)
