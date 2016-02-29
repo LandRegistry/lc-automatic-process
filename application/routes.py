@@ -79,6 +79,12 @@ def health():
     return Response(json.dumps(result), status=status, mimetype='application/json')
 
 
+def format_message(message):
+    if 'X-Transaction-ID' in request.headers:
+        return "T:{} {}".format(request.headers['X-Transaction-ID'], message)
+    return message
+
+
 def create_registration(data):
     registration = {
         "parties": [],
@@ -164,21 +170,19 @@ def register():
         return Response(status=415)  # 415 (Unsupported Media Type)
 
     request_text = request.data.decode('utf-8')
-    logging.info("Data received: %s", re.sub(r"\r?\n", "", request_text))
+    logging.info(format_message("Data received: %s"), re.sub(r"\r?\n", "", request_text))
 
     json_data = request.get_json(force=True)
     if automatic_process(json_data):
-        logging.info('Automatically processing')
+        logging.info(format_message('Automatically processing'))
 
-        # Convert the data where the public API differs from the internal
-        # json_data['date'] = json_data['application_date']
-        # del json_data['application_date']
-        # json_data['class_of_charge'] = json_data['application_type']
-        # del(json_data['application_type'])
         registration = create_registration(json_data)
 
         url = app.config['BANKRUPTCY_DATABASE_API'] + '/registrations'
-        headers = {'Content-Type': 'application/json'}
+        headers = {
+            'Content-Type': 'application/json',
+            'X-Transaction-ID': request.headers['X-Transaction-ID']
+        }
         response = requests.post(url, data=json.dumps(registration), headers=headers)
 
         if response.status_code == 200:
@@ -186,7 +190,7 @@ def register():
         else:
             logging.warning('POST {} -- {}'.format(url, response.status_code))
 
-        print(response.content)
+        logging.debug(response.content)
         respond_data = json.loads(response.content.decode('utf-8'))
         respond_with = {
             "new_registrations": [],
@@ -201,7 +205,7 @@ def register():
                 "date": reg['date']
             })
         notify_casework_api(respond_with['new_registrations'], json_data['original_request'])
-
+        logging.info(format_message('Automatic processing completed'))
         respond_code = response.status_code
     else:
         raise NotImplementedError("Non-automatic processing is not supported")
@@ -215,4 +219,5 @@ def raise_error(error):
     connection = kombu.Connection(hostname=hostname)
     producer = connection.SimpleQueue('errors')
     producer.put(error)
+    logging.error(error)
     logging.warning('Error successfully raised.')
