@@ -7,6 +7,8 @@ import traceback
 import kombu
 import re
 import json
+import datetime
+from datetime import timedelta
 
 
 def check_bankreg_health():
@@ -159,8 +161,28 @@ def notify_casework_api(registrations, data):
         })
 
     url = app.config['CASEWORK_DATABASE_API'] + '/b2b_forms'
-    requests.post(url, data=json.dumps(send_data), headers={'Content-Type': 'application/json'})
+    requests.post(url, data=json.dumps(send_data), headers={'X-Transaction-ID': request.headers['X-Transaction-ID'], 'Content-Type': 'application/json'})
     # TODO: catch errors [!IMPORTANT]
+
+
+def get_registration_post_date(time_now):
+    # The legislation requires that registrations *received* prior to 1500 on a given day
+    # STOP
+    # Next working day? If so... we need to implement this differently...
+    three_pm = time_now.replace(hour=15, minute=0, second=0, microsecond=0)
+    if time_now.time() >= three_pm.time():
+        return get_next_working_day(time_now.strftime('%Y-%m-%d'))
+    return None
+    #     return (dt + timedelta(days=1)).strftime('%Y-%m-%d')
+    #
+    # return dt.strftime('%Y-%m-%d')
+
+
+def get_next_working_day(date):
+    url = app.config['CASEWORK_DATABASE_API'] + '/next_registration_date/' + date
+    response = requests.get(url, headers={'X-Transaction-ID': request.headers['X-Transaction-ID'], 'Content-Type': 'application/json'})
+    data = response.json()
+    return data['date']
 
 
 @app.route('/bankruptcies', methods=["POST"])
@@ -172,6 +194,12 @@ def register():
     request_text = request.data.decode('utf-8')
     logging.info(format_message("Data received: %s"), re.sub(r"\r?\n", "", request_text))
 
+    next_date = None
+    now = datetime.datetime.now()
+    post_date = get_registration_post_date(now)
+    if post_date:
+        next_date = post_date
+
     json_data = request.get_json(force=True)
     if automatic_process(json_data):
         logging.info(format_message('Automatically processing'))
@@ -179,6 +207,9 @@ def register():
         registration = create_registration(json_data)
 
         url = app.config['BANKRUPTCY_DATABASE_API'] + '/registrations'
+        if post_date:
+            url += "?postdate=" + next_date
+
         headers = {
             'Content-Type': 'application/json',
             'X-Transaction-ID': request.headers['X-Transaction-ID']

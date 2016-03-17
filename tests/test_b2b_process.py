@@ -1,7 +1,8 @@
 from unittest import mock
-from application.routes import app
+from application.routes import app, get_registration_post_date
 import requests
 import json
+import datetime
 
 
 class FakeResponse(requests.Response):
@@ -57,13 +58,13 @@ class TestB2BProcess:
 
     @mock.patch('requests.post', return_value=FakeResponse(b'{"new_registrations": []}'))
     def test_register(self, mock_post):
-        headers = {'Content-Type': 'application/json'}
+        headers = {'Content-Type': 'application/json', 'X-Transaction-ID': 42}
         response = self.app.post('/bankruptcies', data=reg_data, headers=headers)
         assert response.status_code == 200
 
     @mock.patch('requests.post', return_value=FakeResponse(b'{"new_registrations": []}'))
     def test_register1(self, mock_post):
-        headers = {'Content-Type': 'application/json'}
+        headers = {'Content-Type': 'application/json', 'X-Transaction-ID': 42}
         response = self.app.post('/bankruptcies', data=reg_data, headers=headers)
         assert response.status_code == 200
 
@@ -74,3 +75,20 @@ class TestB2BProcess:
         data = json.loads(response.data.decode())
         assert response.status_code == 200
         assert data['dependencies']['an-app'] == '200 OK'
+
+    # Ugh, do not have time to cleverly mock out the call to the dates function.
+    # def test_registration_dates(self):
+    #     reg_date = get_registration_post_date(datetime.datetime(2016, 10, 1, 14, 30, 12, 123456))
+    #     assert reg_date is None
+    #
+    #     reg_date = get_registration_post_date(datetime.datetime(2016, 10, 1, 15, 30, 12, 123456))
+    #     assert reg_date == '2016-10-02'
+    #
+    #     reg_date = get_registration_post_date(datetime.datetime(2016, 10, 1, 4, 30, 12, 123456))
+    #     assert reg_date is None
+    #
+    #     reg_date = get_registration_post_date(datetime.datetime(2016, 10, 1, 23, 59, 59, 123456))
+    #     assert reg_date == '2016-10-02'
+    #
+    #     reg_date = get_registration_post_date(datetime.datetime(2016, 10, 1, 15, 00, 00, 0))
+    #     assert reg_date == '2016-10-02'
