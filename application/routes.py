@@ -212,7 +212,8 @@ def register():
 
         headers = {
             'Content-Type': 'application/json',
-            'X-Transaction-ID': request.headers['X-Transaction-ID']
+            'X-Transaction-ID': request.headers['X-Transaction-ID'],
+            'X-LC-Username': request.headers['X-LC-Username']
         }
         response = requests.post(url, data=json.dumps(registration), headers=headers)
 
