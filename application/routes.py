@@ -95,7 +95,8 @@ def create_registration(data):
             "name": data['customer_name'],
             "address": data['customer_address'],
             "key_number": data['key_number'],
-            "reference": data['application_ref']
+            "reference": data['application_ref'],
+            "address_type": "NA"
         },
         'original_request': data['original_request']
     }
