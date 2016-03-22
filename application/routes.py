@@ -213,9 +213,14 @@ def register():
 
         headers = {
             'Content-Type': 'application/json',
-            'X-Transaction-ID': request.headers['X-Transaction-ID'],
-            'X-LC-Username': request.headers['X-LC-Username']
+            'X-Transaction-ID': request.headers['X-Transaction-ID']
         }
+
+        if 'X-LC-Username' in request.headers:
+            headers['X-LC-Username'] = request.headers['X-LC-Username']
+        else:
+            headers['X-LC-Username'] = "none(automatic-process)"  # This happens in test scripts
+
         response = requests.post(url, data=json.dumps(registration), headers=headers)
 
         if response.status_code == 200:
