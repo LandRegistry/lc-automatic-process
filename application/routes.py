@@ -162,8 +162,9 @@ def notify_casework_api(registrations, data):
         })
 
     url = app.config['CASEWORK_DATABASE_API'] + '/b2b_forms'
-    requests.post(url, data=json.dumps(send_data), headers={'X-Transaction-ID': request.headers['X-Transaction-ID'], 'Content-Type': 'application/json'})
-    # TODO: catch errors [!IMPORTANT]
+    resp = requests.post(url, data=json.dumps(send_data), headers={'X-Transaction-ID': request.headers['X-Transaction-ID'], 'Content-Type': 'application/json'})
+    if resp.status_code != 200:
+        raise RuntimeError("Failed to pre-generate image. Code: {}. Message:{}".format(resp.status_code, resp.text))
 
 
 def get_registration_post_date(time_now):
