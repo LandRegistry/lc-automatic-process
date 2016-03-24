@@ -108,7 +108,7 @@ def create_registration(data):
         "occupation": data['occupation'],
         "trading_name": data['trading_name'],
         "residence_withheld": data['residence_withheld'],
-        "case_reference": "[WHAT GOES HERE] FIXME!",
+        "case_reference": "Adjudicator ref {}".format(data['application_ref']),
         "date_of_birth": data['date_of_birth']
     }
 
