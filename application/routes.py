@@ -105,12 +105,21 @@ def create_registration(data):
         "type": "Debtor",
         "names": [],
         "addresses": [],
-        "occupation": data['occupation'],
-        "trading_name": data['trading_name'],
+        #"occupation": data['occupation'],
+        "trading_name": '',
         "residence_withheld": data['residence_withheld'],
         "case_reference": "Adjudicator ref {}".format(data['application_ref']),
-        "date_of_birth": data['date_of_birth']
+        #"date_of_birth": data['date_of_birth']
     }
+
+    if 'occupation' in data:
+        party['occupation'] = data['occupation']
+
+    if 'trading_name' in data:
+        party['trading_name'] = data['trading_name']
+
+    if 'date_of_birth' in data:
+        party['date_of_birth'] = data['date_of_birth']
 
     for name in data['debtor_names']:
         party['names'].append({
@@ -228,6 +237,8 @@ def register():
             logging.info('POST {} -- {}'.format(url, response.status_code))
         else:
             logging.warning('POST {} -- {}'.format(url, response.status_code))
+            logging.warning(response.text)
+            return Response(response.text, status=response.status_code)
 
         logging.debug(response.content)
         respond_data = json.loads(response.content.decode('utf-8'))
