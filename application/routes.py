@@ -170,10 +170,10 @@ def notify_casework_api(registrations, data):
             "date": reg['date']
         })
 
-    url = app.config['CASEWORK_DATABASE_API'] + '/b2b_forms'
-    resp = requests.post(url, data=json.dumps(send_data), headers={'X-Transaction-ID': request.headers['X-Transaction-ID'], 'Content-Type': 'application/json'})
-    if resp.status_code != 200:
-        raise RuntimeError("Failed to pre-generate image. Code: {}. Message:{}".format(resp.status_code, resp.text))
+    connection = kombu.Connection(hostname=app.config['AMQP_URI'])
+    producer = connection.SimpleQueue(app.config['PREGENERATE_QUEUE_NAME'])
+    producer.put(send_data)
+    logging.info('Pregeneration submitted.')
 
 
 def get_registration_post_date(time_now):
