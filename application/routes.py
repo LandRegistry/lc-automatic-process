@@ -105,7 +105,7 @@ def create_registration(data):
         "type": "Debtor",
         "names": [],
         "addresses": [],
-        #"occupation": data['occupation'],
+        "occupation": '',
         "trading_name": '',
         "residence_withheld": data['residence_withheld'],
         "case_reference": "Adjudicator ref {}".format(data['application_ref']),
