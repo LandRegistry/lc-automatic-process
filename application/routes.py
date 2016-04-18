@@ -178,22 +178,24 @@ def notify_casework_api(registrations, data):
 
 def get_registration_post_date(time_now):
     # The legislation requires that registrations *received* prior to 1500 on a given day
-    # STOP
-    # Next working day? If so... we need to implement this differently...
-    three_pm = time_now.replace(hour=15, minute=0, second=0, microsecond=0)
-    if time_now.time() >= three_pm.time():
-        return get_next_working_day(time_now.strftime('%Y-%m-%d'))
+
+    # Get calendar information from CASEWORK_API
+    date_info = get_calendar_info(time_now.strftime('%Y-%m-%d'))
+    if not date_info['is_working']:
+        return date_info['next_working']
+    else:
+        three_pm = time_now.replace(hour=15, minute=0, second=0, microsecond=0)
+        if time_now.time() >= three_pm.time():
+            return date_info['next_working']
+
     return None
-    #     return (dt + timedelta(days=1)).strftime('%Y-%m-%d')
-    #
-    # return dt.strftime('%Y-%m-%d')
 
 
-def get_next_working_day(date):
+def get_calendar_info(date):
     url = app.config['CASEWORK_DATABASE_API'] + '/next_registration_date/' + date
     response = requests.get(url, headers={'X-Transaction-ID': request.headers['X-Transaction-ID'], 'Content-Type': 'application/json'})
     data = response.json()
-    return data['date']
+    return data
 
 
 @app.route('/bankruptcies', methods=["POST"])
